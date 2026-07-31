@@ -1,4 +1,7 @@
-@tailwind base;
+/* Tailwind preflight (`@tailwind base`) is intentionally NOT included: its
+   unlayered element resets would override the layered Panda CSS styles that
+   @swmansion/ui-components relies on. Panda's `reset` layer (in panda.css)
+   provides the base reset for the whole site instead. */
 @tailwind components;
 @tailwind utilities;
 
@@ -8,3 +11,13 @@
   display: none !important;
 }
 
+/* The ui-components SwmLogo hardcodes SWM navy (#001A72) fills, which vanish on
+   this site's dark background. CSS fill beats the SVG presentation attribute. */
+svg[aria-label="Software Mansion"] path {
+  fill: #fafafa;
+}
+
+.site-navbar {
+  background-color: rgba(10, 10, 10, 0.8);
+  border-bottom: 1px solid #262626;
+}

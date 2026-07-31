@@ -13,6 +13,10 @@ dist-ssr
 *.local
 .astro
 
+# Panda CSS generated output
+styled-system
+src/styles/panda.css
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

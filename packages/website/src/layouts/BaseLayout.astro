@@ -1,5 +1,9 @@
 ---
+import '../styles/panda.css';
 import '../styles/global.css';
+
+import { adBannerReservationScript } from '@swmansion/ui-components';
+import { AD_BANNER } from '../data/topbar-zone-config';
 
 const PRODUCT_DESCRIPTION =
   'Speed up your builds and avoid compiling native libraries from scratch.';
@@ -40,7 +44,7 @@ const structuredData = {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
@@ -58,6 +62,16 @@ const structuredData = {
       type="application/ld+json"
       set:html={JSON.stringify(structuredData).replace(/</g, '\\u003c')}
     ></script>
+
+    <!-- Reserve the ad-banner height before hydration → no content shift on
+         reload. Must run before <body> paints, so it lives here in <head>. -->
+    <script
+      is:inline
+      set:html={adBannerReservationScript(
+        AD_BANNER.zones[0]!.zoneId,
+        AD_BANNER.zones[0]!.contentId
+      )}
+    />
 
     {/* Open Graph / Facebook */}
     <meta property="og:type" content="website" />
@@ -86,27 +100,15 @@ const structuredData = {
         letter-spacing: 0.025em;
       }
       .bg-grid-pattern {
-        background-image: linear-gradient(
-            to right,
-            #262626 1px,
-            transparent 1px
-          ),
+        background-image: linear-gradient(to right, #262626 1px, transparent 1px),
           linear-gradient(to bottom, #262626 1px, transparent 1px);
         background-size: 40px 40px;
         mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
-        -webkit-mask-image: linear-gradient(
-          to bottom,
-          black 40%,
-          transparent 100%
-        );
+        -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
       }
     </style>
   </head>
   <body>
-    <div
-      class="min-h-screen bg-background text-rnrGrey-0 font-sans selection:bg-brandSeaBlue-100 selection:text-black"
-    >
-      <slot />
-    </div>
+    <slot />
   </body>
 </html>

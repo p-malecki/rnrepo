@@ -1,17 +1,18 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Navbar from '../components/Navbar.astro';
+import Header from '../components/react/header';
 import SupportedLibraries from '../components/SupportedLibraries.astro';
-import Footer from '../components/Footer.astro';
+import Footer from '../components/react/footer';
+import { AD_BANNER } from '../data/topbar-zone-config';
 ---
 
 <BaseLayout
   title="Supported libraries | RNRepo"
   description="React Native libraries available as prebuilt artifacts, and the versions they are built against."
 >
-  <Navbar />
+  <Header client:load showBanner adBanner={AD_BANNER} />
   <main>
     <SupportedLibraries />
   </main>
-  <Footer />
+  <Footer client:visible />
 </BaseLayout>
