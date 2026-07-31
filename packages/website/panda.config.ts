@@ -97,8 +97,11 @@ export default defineConfig({
           "interactive.primaryActive": {
             value: { base: "#87CCE8", _dark: "#87CCE8" },
           },
-          "interactive.focusRing": {
-            value: { base: "#38ACDD", _dark: "#38ACDD" },
+          'interactive.secondaryHover': {
+            value: { base: '{colors.gray.200}', _dark: '{colors.gray.600}' },
+          },
+          'interactive.focusRing': {
+            value: { base: '#38ACDD', _dark: '#38ACDD' },
           },
         },
       },
