@@ -1,5 +1,6 @@
 import { Button, FooterSection } from "@swmansion/ui-components";
 import type { FooterLegalLink } from "@swmansion/ui-components";
+import { ctaButtonCss } from "../../styles/button";
 
 const footerNavLinks: FooterLegalLink[] = [
   { href: "/#setup", label: "Setup" },
@@ -24,6 +25,7 @@ export default function Footer() {
           <Button
             variant="primary"
             size="lg"
+            className={ctaButtonCss}
             href="https://swmansion.com/contact"
             external
             target="_blank"
@@ -34,7 +36,7 @@ export default function Footer() {
           </Button>
         </FooterSection.Action>
       </FooterSection.Content>
-      <FooterSection.BrandStrip />
+      <FooterSection.BrandStrip theme="dark" />
       <FooterSection.BottomBar legalLinks={footerNavLinks} />
     </FooterSection>
   );

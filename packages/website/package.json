@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@rnrepo/database": "workspace:*",
-    "@swmansion/ui-components": "^1.0.48",
+    "@swmansion/ui-components": "^1.0.59",
     "astro": "^4.16.6",
     "lucide-astro": "^0.555.0",
     "lucide-react": "^1.27.0",
