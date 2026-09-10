@@ -1,27 +1,168 @@
 ---
-import FAQItem from './FAQItem.astro';
+import { Container, PageSection, SectionHeader } from '@swmansion/ui-components';
 import { faqItems } from '../data/faq';
 ---
 
-<section id="faq" class="py-24 border-b border-rnrGrey-80">
-  <div class="max-w-[960px] mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-12">
-      <h2
-        class="text-3xl md:text-4xl font-medium text-rnrGrey-0 mb-6 leading-tight"
-      >
-        Frequently Asked Questions
-      </h2>
-      <p class="text-lg text-rnrGrey-40 leading-relaxed">
-        Everything you need to know about RNRepo.
-      </p>
-    </div>
-
-    <div class="space-y-4">
+<PageSection id="faq" size="lg">
+  <Container size="content">
+    <SectionHeader
+      title="Frequently Asked Questions"
+      description="Everything you need to know about RNRepo."
+    />
+    <div class="faq-list">
       {
-        faqItems.map((item) => (
-          <FAQItem question={item.question} answer={item.answer} />
+        faqItems.map((item, index) => (
+          <div class="faq-item" data-faq-open="false">
+            <button
+              type="button"
+              class="faq-summary"
+              id={`faq-question-${index}`}
+              aria-expanded="false"
+              aria-controls={`faq-answer-${index}`}
+            >
+              <span class="faq-question">{item.question}</span>
+              <svg
+                class="faq-chevron"
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+            <div
+              class="faq-panel"
+              id={`faq-answer-${index}`}
+              role="region"
+              aria-labelledby={`faq-question-${index}`}
+            >
+              <div class="faq-panel-inner">
+                <p class="faq-answer" set:html={item.answer} />
+              </div>
+            </div>
+          </div>
         ))
       }
     </div>
-  </div>
-</section>
+  </Container>
+</PageSection>
+
+<style>
+  .faq-list {
+    margin-top: 3rem;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--colors-border-default);
+  }
+
+  .faq-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    padding: 1.25rem 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    color: var(--colors-gray-200);
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  .faq-summary:hover,
+  .faq-summary:hover .faq-chevron {
+    color: #38acdd;
+  }
+
+  .faq-chevron {
+    flex-shrink: 0;
+    color: var(--colors-gray-500);
+    transition:
+      transform 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .faq-item[data-faq-open='true'] .faq-chevron {
+    transform: rotate(180deg);
+    color: #38acdd;
+  }
+
+  .faq-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    visibility: hidden;
+    transition:
+      grid-template-rows 260ms cubic-bezier(0.4, 0, 0.2, 1),
+      visibility 260ms;
+  }
+
+  .faq-item[data-faq-open='true'] .faq-panel {
+    grid-template-rows: 1fr;
+    visibility: visible;
+  }
+
+  .faq-panel-inner {
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  .faq-answer {
+    margin: 0;
+    padding-bottom: 1.25rem;
+    color: var(--colors-text-muted);
+    line-height: 1.75;
+  }
+
+  .faq-answer :global(a) {
+    color: var(--colors-text-heading);
+    text-decoration: underline;
+  }
+
+  .faq-answer :global(a:hover) {
+    color: #38acdd;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .faq-panel {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function initFaq() {
+    const items = Array.from(document.querySelectorAll<HTMLElement>('.faq-item'));
+
+    function setOpen(item: HTMLElement, open: boolean) {
+      item.dataset.faqOpen = String(open);
+      item.querySelector('.faq-summary')?.setAttribute('aria-expanded', String(open));
+    }
+
+    for (const item of items) {
+      item.querySelector('.faq-summary')?.addEventListener('click', () => {
+        const willOpen = item.dataset.faqOpen !== 'true';
+        for (const other of items) {
+          if (other !== item) setOpen(other, false);
+        }
+        setOpen(item, willOpen);
+      });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFaq);
+  } else {
+    initFaq();
+  }
+</script>
