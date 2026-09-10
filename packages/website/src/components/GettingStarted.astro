@@ -1,7 +1,8 @@
 ---
+import { Container, PageSection, SectionHeader } from '@swmansion/ui-components';
 import Icon from './Icon.astro';
-import { Info } from 'lucide-astro';
 import { codeToHtml } from 'shiki';
+import { sectionBorderTopCss } from '../styles/section';
 
 const cngInstallInstructions = `$ npx expo install @rnrepo/expo-config-plugin
 # If you have a hoisted setup, you might also need to install build-tools package:
@@ -63,13 +64,10 @@ const standardBuildGradleChangesCopyText = `def rnrepoDir = new File(
 ).getParentFile().absolutePath
 classpath fileTree(dir: "\${rnrepoDir}/gradle-plugin/build/libs", include: ["prebuilds-plugin.jar"])`;
 
-const standardBuildGradleChangesCodeHtml = await codeToHtml(
-  standardBuildGradleChange,
-  {
-    lang: 'diff',
-    theme: 'github-dark',
-  }
-);
+const standardBuildGradleChangesCodeHtml = await codeToHtml(standardBuildGradleChange, {
+  lang: 'diff',
+  theme: 'github-dark',
+});
 
 const standardAppBuildGradleChange = `apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
@@ -79,13 +77,10 @@ apply plugin: "com.facebook.react"
 
 const standardAppBuildGradleChangesCopyText = `apply plugin: "org.rnrepo.tools.prebuilds-plugin"`;
 
-const standardAppBuildGradleChangesCodeHtml = await codeToHtml(
-  standardAppBuildGradleChange,
-  {
-    lang: 'diff',
-    theme: 'github-dark',
-  }
-);
+const standardAppBuildGradleChangesCodeHtml = await codeToHtml(standardAppBuildGradleChange, {
+  lang: 'diff',
+  theme: 'github-dark',
+});
 
 const iOSPodfile = `+ require Pod::Executable.execute_command('node', ['-p',
 +  'require.resolve(
@@ -114,25 +109,16 @@ const iOSPodfileCodeHtml = await codeToHtml(iOSPodfile, {
 });
 ---
 
-<section id="setup" class="py-20 border-b border-rnrGrey-80">
-  <div class="max-w-[960px] mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="mb-12">
-      <h2
-        class="text-3xl md:text-4xl font-medium text-rnrGrey-0 mb-6 leading-tight"
-      >
-        Getting Started
-      </h2>
-    </div>
-
-    <p class="text-lg text-rnrGrey-40 leading-relaxed mb-8">
-      To start using RNRepo, you need to configure your project to
-      include our build plugin that will
-      automatically swap out dependencies on supported libraries with pre-built
-      artifacts downloaded from our repository.
-    </p>
+<PageSection id="setup" size="lg" className={sectionBorderTopCss}>
+  <Container size="content">
+    <SectionHeader
+      align="start"
+      title="Getting Started"
+      description="To start using RNRepo, you need to configure your project to include our build plugin that will automatically swap out dependencies on supported libraries with pre-built artifacts downloaded from our repository."
+    />
 
     {/* Tab Switcher - Using Radio Buttons */}
-    <div class="tab-wrapper">
+    <div class="tab-wrapper mt-12">
       <input
         type="radio"
         id="tab-expo"
@@ -150,33 +136,23 @@ const iOSPodfileCodeHtml = await codeToHtml(iOSPodfile, {
         <div class="sliding-background"></div>
         <label for="tab-expo" class="tab-label tab-label-expo">
           <span class="md:hidden">Expo Prebuild (CNG)</span>
-          <span class="hidden md:inline"
-            >Expo Prebuild (Continuous Code Generation – CNG)</span
-          >
+          <span class="hidden md:inline">Expo Prebuild (Continuous Code Generation – CNG)</span>
         </label>
         <label for="tab-standard" class="tab-label tab-label-standard">
           <span class="md:hidden">Standard React Native</span>
-          <span class="hidden md:inline"
-            >Standard React Native / Other Expo Setups</span
-          >
+          <span class="hidden md:inline">Standard React Native / Other Expo Setups</span>
         </label>
       </div>
 
       {/* Expo Setup - Step 1 */}
-      <p
-        class="code-block-wrapper code-block-wrapper-expo text-rnrGrey-40 leading-relaxed mb-4"
-      >
-        If you are using Expo Continuous Code Generation (CNG) setup (generating
-        your native directories with expo prebuild command), you can use
-        our Expo config plugin to automatically configure your project to
-        use RNRepo.
+      <p class="code-block-wrapper code-block-wrapper-expo text-rnrGrey-40 leading-relaxed mb-4">
+        If you are using Expo Continuous Code Generation (CNG) setup (generating your native
+        directories with expo prebuild command), you can use our Expo config plugin to automatically
+        configure your project to use RNRepo.
       </p>
-      <p
-        class="code-block-wrapper code-block-wrapper-expo text-rnrGrey-40 leading-relaxed mb-4"
-      >
+      <p class="code-block-wrapper code-block-wrapper-expo text-rnrGrey-40 leading-relaxed mb-4">
         First, install the Expo config plugin using your package manager or with
-        <span
-          class="text-rnrGrey-0 bg-rnrGrey-90 px-1.5 py-0.5 rounded font-mono text-sm"
+        <span class="text-rnrGrey-0 bg-rnrGrey-90 px-1.5 py-0.5 rounded font-mono text-sm"
           >expo install</span
         > command:
       </p>
@@ -210,21 +186,17 @@ const iOSPodfileCodeHtml = await codeToHtml(iOSPodfile, {
       </div>
 
       {/* Expo Setup - Step 2 */}
-      <p
-        class="code-block-wrapper code-block-wrapper-expo text-rnrGrey-40 leading-relaxed mb-4"
-      >
+      <p class="code-block-wrapper code-block-wrapper-expo text-rnrGrey-40 leading-relaxed mb-4">
         If not already added by the <span
           class="text-rnrGrey-0 bg-rnrGrey-90 px-1.5 py-0.5 rounded font-mono text-sm"
           >expo install</span
         > command, manually add the plugin to your <span
           class="text-rnrGrey-0 bg-rnrGrey-90 px-1.5 py-0.5 rounded font-mono text-sm"
           >app.config.ts</span
-        > file (<span
-          class="text-rnrGrey-0 bg-rnrGrey-90 px-1.5 py-0.5 rounded font-mono text-sm"
+        > file (<span class="text-rnrGrey-0 bg-rnrGrey-90 px-1.5 py-0.5 rounded font-mono text-sm"
           >app.json</span
         > or
-        <span
-          class="text-rnrGrey-0 bg-rnrGrey-90 px-1.5 py-0.5 rounded font-mono text-sm"
+        <span class="text-rnrGrey-0 bg-rnrGrey-90 px-1.5 py-0.5 rounded font-mono text-sm"
           >app.config.js</span
         > depending on your setup):
       </p>
@@ -259,10 +231,9 @@ const iOSPodfileCodeHtml = await codeToHtml(iOSPodfile, {
       </div>
 
       {/* Expo Setup - Step 3 */}
-      <p
-        class="code-block-wrapper code-block-wrapper-expo text-rnrGrey-40 leading-relaxed mb-4"
-      >
-        If you are using Expo Fingerprint (e.g., during EAS builds), add RNRepo downloaded artifacts to ignored files by adding the following to your <a
+      <p class="code-block-wrapper code-block-wrapper-expo text-rnrGrey-40 leading-relaxed mb-4">
+        If you are using Expo Fingerprint (e.g., during EAS builds), add RNRepo downloaded artifacts
+        to ignored files by adding the following to your <a
           href="https://docs.expo.dev/versions/latest/sdk/fingerprint/#fingerprintignore"
           target="_blank"
           rel="noopener noreferrer"
@@ -278,9 +249,7 @@ const iOSPodfileCodeHtml = await codeToHtml(iOSPodfile, {
         <div
           class="flex items-center justify-between px-6 py-3 border-b border-rnrGrey-80 bg-[#141414]"
         >
-          <span class="text-xs text-rnrGrey-50 font-mono">
-            .fingerprintignore
-          </span>
+          <span class="text-xs text-rnrGrey-50 font-mono"> .fingerprintignore </span>
           <button
             class="copy-button flex items-center gap-1.5 text-xs text-rnrGrey-50 hover:text-rnrGrey-0 transition-colors group"
             type="button"
@@ -303,8 +272,8 @@ const iOSPodfileCodeHtml = await codeToHtml(iOSPodfile, {
       <p
         class="code-block-wrapper code-block-wrapper-standard text-rnrGrey-40 leading-relaxed mb-4"
       >
-        For standard React Native setups or when using Expo but managing your
-        native folders by hand, you need to install build-tools package:
+        For standard React Native setups or when using Expo but managing your native folders by
+        hand, you need to install build-tools package:
       </p>
       <div
         class="code-block-wrapper code-block-wrapper-standard border border-rnrGrey-80 rounded-sm overflow-hidden bg-[#0D0D0D] mb-4"
@@ -331,18 +300,21 @@ const iOSPodfileCodeHtml = await codeToHtml(iOSPodfile, {
           <Fragment set:html={buildToolsInstallCodeHtml} />
         </div>
       </div>
-            <p
+      <p
         class="code-block-wrapper code-block-wrapper-standard text-rnrGrey-40 leading-relaxed mb-4"
       >
         And then edit the following files to use RNRepo:
       </p>
-        <h3 class="code-block-wrapper code-block-wrapper-standard text-lg font-semibold text-rnrGrey-0 mb-2">Android</h3>
+      <h3
+        class="code-block-wrapper code-block-wrapper-standard text-lg font-semibold text-rnrGrey-0 mb-2"
+      >
+        Android
+      </h3>
       <p
         class="code-block-wrapper code-block-wrapper-standard text-rnrGrey-40 leading-relaxed mb-4"
       >
         First, add the RNRepo Maven repository to your main
-        <span
-          class="text-rnrGrey-0 bg-rnrGrey-90 px-1.5 py-0.5 rounded font-mono text-sm"
+        <span class="text-rnrGrey-0 bg-rnrGrey-90 px-1.5 py-0.5 rounded font-mono text-sm"
           >android/build.gradle</span
         > file and register RNRepo's gradle plugin.
       </p>
@@ -356,9 +328,7 @@ const iOSPodfileCodeHtml = await codeToHtml(iOSPodfile, {
         <div
           class="flex items-center justify-between px-6 py-3 border-b border-rnrGrey-80 bg-[#141414]"
         >
-          <span class="text-xs text-rnrGrey-50 font-mono">
-            android/build.gradle
-          </span>
+          <span class="text-xs text-rnrGrey-50 font-mono"> android/build.gradle </span>
           <button
             class="copy-button flex items-center gap-1.5 text-xs text-rnrGrey-50 hover:text-rnrGrey-0 transition-colors group"
             type="button"
@@ -397,9 +367,7 @@ const iOSPodfileCodeHtml = await codeToHtml(iOSPodfile, {
         <div
           class="flex items-center justify-between px-6 py-3 border-b border-rnrGrey-80 bg-[#141414]"
         >
-          <span class="text-xs text-rnrGrey-50 font-mono">
-            android/app/build.gradle
-          </span>
+          <span class="text-xs text-rnrGrey-50 font-mono"> android/app/build.gradle </span>
           <button
             class="copy-button flex items-center gap-1.5 text-xs text-rnrGrey-50 hover:text-rnrGrey-0 transition-colors group"
             type="button"
@@ -419,7 +387,11 @@ const iOSPodfileCodeHtml = await codeToHtml(iOSPodfile, {
       </div>
 
       {/* Standard iOS Instructions */}
-      <h3 class="code-block-wrapper code-block-wrapper-standard text-lg font-semibold text-rnrGrey-0 mb-2">iOS</h3>
+      <h3
+        class="code-block-wrapper code-block-wrapper-standard text-lg font-semibold text-rnrGrey-0 mb-2"
+      >
+        iOS
+      </h3>
       <p
         class="code-block-wrapper code-block-wrapper-standard text-rnrGrey-40 leading-relaxed mb-4"
       >
@@ -456,9 +428,7 @@ const iOSPodfileCodeHtml = await codeToHtml(iOSPodfile, {
     </div>
 
     {/* Bottom CTA */}
-    <div
-      class="mt-8 text-center p-8 bg-surfaceHighlight/20 border border-rnrGrey-80 rounded-sm"
-    >
+    <div class="mt-8 text-center p-8 bg-surfaceHighlight/20 border border-rnrGrey-80 rounded-sm">
       <h3 class="text-lg font-semibold text-rnrGrey-0 mb-2">
         That's it! Now build your app as usual and enjoy faster builds.
       </h3>
@@ -472,8 +442,8 @@ const iOSPodfileCodeHtml = await codeToHtml(iOSPodfile, {
         >.
       </p>
     </div>
-  </div>
-</section>
+  </Container>
+</PageSection>
 
 <style>
   .tab-wrapper {
@@ -568,7 +538,7 @@ const iOSPodfileCodeHtml = await codeToHtml(iOSPodfile, {
   }
 
   .code-block :global(code) {
-    font-family: 'Fira Code', monospace;
+    font-family: 'DM Mono', monospace;
     font-size: inherit;
   }
 
