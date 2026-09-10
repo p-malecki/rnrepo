@@ -3,9 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/react/header';
 import Hero from '../components/react/Hero';
 import GettingStarted from '../components/GettingStarted.astro';
-import Features from '../components/Features.astro';
-import HowItWorks from '../components/HowItWorks.astro';
-import CustomSetup from '../components/CustomSetup.astro';
+import FeaturesGrid from '../components/react/FeaturesGrid';
+import HowItWorksSection from '../components/react/HowItWorksSection';
+import CustomSetupSection from '../components/react/CustomSetupSection';
 import FAQ from '../components/FAQ.astro';
 import Footer from '../components/react/footer';
 import { AD_BANNER } from '../data/topbar-zone-config';
@@ -16,9 +16,9 @@ import { AD_BANNER } from '../data/topbar-zone-config';
   <main>
     <Hero />
     <GettingStarted />
-    <Features />
-    <HowItWorks />
-    <CustomSetup />
+    <FeaturesGrid />
+    <HowItWorksSection client:visible />
+    <CustomSetupSection />
     <FAQ />
   </main>
   <Footer client:visible />
