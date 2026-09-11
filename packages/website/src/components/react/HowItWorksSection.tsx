@@ -156,8 +156,6 @@ export default function HowItWorksSection() {
                     marginInline: 'auto',
                   }}
                 >
-                  {/* Inline rather than the library CheckIcon: the old site drew
-                    this at stroke-width 4 to balance the 8px ring. */}
                   <svg
                     width="48"
                     height="48"

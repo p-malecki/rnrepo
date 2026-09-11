@@ -11,8 +11,6 @@
   display: none !important;
 }
 
-/* The ui-components SwmLogo hardcodes SWM navy (#001A72) fills, which vanish on
-   this site's dark background. CSS fill beats the SVG presentation attribute. */
 svg[aria-label='Software Mansion'] path {
   fill: #fafafa;
 }
@@ -22,8 +20,6 @@ svg[aria-label='Software Mansion'] path {
   border-bottom: 1px solid #262626;
 }
 
-/* Navbar exposes no hook for its mobile drawer, hence the selector. The
-   drawer's default #171717 is lighter than the navbar it drops out of. */
 body > [role='dialog'] {
   background-color: rgba(10, 10, 10, 0.8);
   -webkit-backdrop-filter: blur(12px);

@@ -63,8 +63,7 @@ const structuredData = {
       set:html={JSON.stringify(structuredData).replace(/</g, '\\u003c')}
     ></script>
 
-    <!-- Reserve the ad-banner height before hydration → no content shift on
-         reload. Must run before <body> paints, so it lives here in <head>. -->
+    <!-- Reserve the ad-banner height before hydration -->
     <script
       is:inline
       set:html={adBannerReservationScript(

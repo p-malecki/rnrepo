@@ -13,9 +13,6 @@ const menuItems: NavMenuItemConfig[] = [
   { label: 'Supported Libraries', href: '/supported-libraries' },
 ];
 
-// NavItem renders links at full brightness and marks hover with a rounded
-// ghost fill. This site dims the idle links and just brightens them on hover,
-// the way the pre-migration navbar did.
 const navMenuCss = css({
   '& li a': { color: 'gray.400' },
   '& li a:hover': { color: 'gray.50', backgroundColor: '[transparent]' },

@@ -62,13 +62,8 @@ const accentCss = css({ color: 'brand.primary' });
 
 const descriptionCss = css({ maxWidth: '[48rem]' });
 
-// The library ArrowIcon is a drawn SVG; the original hero used a plain "→"
-// glyph dimmed against each button's own background.
 const arrowOnPrimaryCss = css({ color: '[rgba(0, 0, 0, 0.6)]' });
 const arrowOnSecondaryCss = css({ color: 'text.muted' });
-
-// Inline, not a Panda class: the Button recipe's own `borderWidth: 0` is
-// emitted later in the stylesheet at equal specificity, so a class here loses.
 const secondaryButtonBorder = { border: '1px solid #525252' };
 
 const heroCopyCss = css({

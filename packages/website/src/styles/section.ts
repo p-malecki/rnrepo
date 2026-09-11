@@ -1,9 +1,8 @@
 import { css } from '../../styled-system/css';
 
-// PageSection/TextSection render their `dividerTop`/`dividerBottom` line as a
-// regular child, so it lands *inside* the padding box — flush against the
-// heading instead of on the section boundary. A real border on the section sits
-// outside the padding, which is how the pre-ui-components site drew these.
+// PageSection/TextSection render `dividerTop`/`dividerBottom` inside the padding
+// box, flush against the heading. We want the line on the section boundary, so
+// draw it as a real border instead.
 export const sectionBorderTopCss = css({
   borderTopWidth: 'sm',
   borderTopStyle: 'solid',
@@ -35,9 +34,6 @@ export const sectionHeadingCss = css({
 
 export const sectionTitleCss = css(sectionHeadingSize);
 
-// Heading's `heading.h1` textStyle steps up to 72px at xl (1440px+). Page
-// titles ride the same 48/60 ramp as section headings, so xl is pinned back to
-// 60 — the library rule needs an explicit override at that breakpoint.
 export const pageTitleCss = css({
   fontSize: { base: '[3rem]', md: '[3.75rem]', xl: '[3.75rem]' },
   lineHeight: { base: '[3.5rem]', md: '[4.125rem]', xl: '[4.125rem]' },
