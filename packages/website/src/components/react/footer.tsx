@@ -1,6 +1,7 @@
 import { Button, FooterSection } from "@swmansion/ui-components";
 import type { FooterLegalLink } from "@swmansion/ui-components";
 import { ctaButtonCss } from "../../styles/button";
+import { sectionTitleCss } from "../../styles/section";
 
 const footerNavLinks: FooterLegalLink[] = [
   { href: "/#setup", label: "Setup" },
@@ -13,7 +14,9 @@ export default function Footer() {
   return (
     <FooterSection tone="subtle">
       <FooterSection.Content>
-        <FooterSection.Title>We are Software Mansion</FooterSection.Title>
+        <FooterSection.Title className={sectionTitleCss}>
+          We are Software Mansion
+        </FooterSection.Title>
         <FooterSection.Description>
           <p>
             We're a software company built around improving developer experience

@@ -1,11 +1,13 @@
 ---
 import { Container, PageSection, SectionHeader } from '@swmansion/ui-components';
 import { faqItems } from '../data/faq';
+import { sectionHeadingCss } from '../styles/section';
 ---
 
 <PageSection id="faq" size="lg">
   <Container size="content">
     <SectionHeader
+      className={sectionHeadingCss}
       title="Frequently Asked Questions"
       description="Everything you need to know about RNRepo."
     />

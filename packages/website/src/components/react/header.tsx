@@ -24,9 +24,13 @@ const githubButtonBorder = { border: '1px solid #525252' };
 
 const arrowCss = css({ color: 'text.muted' });
 
-function GithubMark() {
+const githubIconCss = css({ display: { base: 'inline-flex', lg: 'none' } });
+const githubLabelCss = css({ display: { base: 'none', lg: 'inline' } });
+
+function GithubMark({ className }: { className?: string }) {
   return (
     <svg
+      className={className}
       xmlns="http://www.w3.org/2000/svg"
       width={16}
       height={16}
@@ -55,7 +59,11 @@ const githubButton = (
     aria-label="View RNRepo on GitHub"
     title="View RNRepo on GitHub"
   >
-    <GithubMark />
+    <GithubMark className={githubIconCss} />
+    <span className={githubLabelCss}>View on GitHub</span>
+    <span className={`${githubLabelCss} ${arrowCss}`} aria-hidden>
+      →
+    </span>
   </Button>
 );
 

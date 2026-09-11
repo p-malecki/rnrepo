@@ -8,7 +8,7 @@ import {
 } from '@swmansion/ui-components';
 import type { ReactNode } from 'react';
 import { css, cx } from '../../../styled-system/css';
-import { sectionBorderTopCss } from '../../styles/section';
+import { sectionBorderTopCss, sectionHeadingCss } from '../../styles/section';
 
 // Matches the hero/feature perk cards: square corners, translucent surface, and
 // a border that lifts on hover along with the icon tile behind it. The icon
@@ -97,6 +97,7 @@ export default function HowItWorksSection() {
         className={sectionBorderTopCss}
       >
         <TimelineSection.Header
+          className={sectionHeadingCss}
           title="How It Works"
           description="A fully automated, transparent pipeline from source to prebuilt artifacts."
         />

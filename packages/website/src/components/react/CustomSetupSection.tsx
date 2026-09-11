@@ -3,7 +3,11 @@ import { FileText, Lock, Server } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { css, cx } from '../../../styled-system/css';
 import { ctaButtonCss } from '../../styles/button';
-import { sectionBorderBottomCss, sectionBorderTopCss } from '../../styles/section';
+import {
+  sectionBorderBottomCss,
+  sectionBorderTopCss,
+  sectionHeadingCss,
+} from '../../styles/section';
 
 interface Chip {
   icon: LucideIcon;
@@ -24,7 +28,7 @@ const chipCss = css({
   paddingInline: '4',
   paddingBlock: '2',
   fontSize: 'sm',
-  color: 'gray.800',
+  color: 'gray.300',
 });
 
 const ctaCss = cx(css({ alignSelf: 'center' }), ctaButtonCss);
@@ -36,7 +40,7 @@ export default function CustomSetupSection() {
     <TextSection
       size="lg"
       tone="default"
-      className={cx(sectionBorderTopCss, sectionBorderBottomCss)}
+      className={cx(sectionBorderTopCss, sectionBorderBottomCss, sectionHeadingCss)}
       eyebrow="Enterprise & Brownfield"
       title="Need a Custom Setup?"
       description="For enterprise and brownfield projects that require self-hosted Maven repositories, private access configuration, or custom library builds—we're here to help."

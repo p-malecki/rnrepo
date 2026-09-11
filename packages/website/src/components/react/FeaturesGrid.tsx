@@ -3,7 +3,7 @@ import { Folder, Package, Phone, Shield, Zap } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { css } from '../../../styled-system/css';
-import { sectionBorderTopCss } from '../../styles/section';
+import { sectionBorderTopCss, sectionHeadingCss } from '../../styles/section';
 
 interface Feature {
   icon: LucideIcon;
@@ -123,6 +123,7 @@ export default function FeaturesGrid() {
     <PageSection id="benefits" size="lg" tone="default" className={sectionBorderTopCss}>
       <Container size="default">
         <SectionHeader
+          className={sectionHeadingCss}
           title="Why RNRepo?"
           description="Built for React Native developers who value speed, security, and simplicity."
         />
