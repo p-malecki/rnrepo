@@ -1,6 +1,6 @@
 import { AdBanner, Button, NavLogo, Navbar as UiNavbar } from '@swmansion/ui-components';
 import type { NavMenuItemConfig } from '@swmansion/ui-components';
-import { css } from '../../../styled-system/css';
+import { css, cx } from '../../../styled-system/css';
 import rnrepoLogo from '../../assets/images/rnrepo-logo.svg';
 import type { AdBannerConfig } from '../../data/topbar-zone-config';
 
@@ -12,6 +12,14 @@ const menuItems: NavMenuItemConfig[] = [
   { label: 'FAQ', href: '/#faq' },
   { label: 'Supported Libraries', href: '/supported-libraries' },
 ];
+
+// NavItem renders links at full brightness and marks hover with a rounded
+// ghost fill. This site dims the idle links and just brightens them on hover,
+// the way the pre-migration navbar did.
+const navMenuCss = css({
+  '& li a': { color: 'gray.400' },
+  '& li a:hover': { color: 'gray.50', backgroundColor: '[transparent]' },
+});
 
 const githubButtonCss = css({
   fontSize: 'xs',
@@ -90,7 +98,7 @@ export default function Header({ showBanner = false, adBanner }: HeaderProps) {
   const navbar = (
     <UiNavbar
       sticky
-      className="site-navbar"
+      className={cx('site-navbar', navMenuCss)}
       logo={<NavLogo href="/" src={rnrepoLogo.src} alt="RNRepo" height="28px" />}
       menuItems={menuItems}
       menuAlign="end"
