@@ -34,3 +34,11 @@ export const sectionHeadingCss = css({
 });
 
 export const sectionTitleCss = css(sectionHeadingSize);
+
+// Heading's `heading.h1` textStyle steps up to 72px at xl (1440px+). Page
+// titles ride the same 48/60 ramp as section headings, so xl is pinned back to
+// 60 — the library rule needs an explicit override at that breakpoint.
+export const pageTitleCss = css({
+  fontSize: { base: '[3rem]', md: '[3.75rem]', xl: '[3.75rem]' },
+  lineHeight: { base: '[3.5rem]', md: '[4.125rem]', xl: '[4.125rem]' },
+});

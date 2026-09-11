@@ -1,9 +1,32 @@
 ---
-import {
-  getLibraries,
-  getSupportedLibraryNames,
-} from '../data/fetch-supported-libraries';
+import { Button, Container, Heading, PageSection, Reveal, Text } from '@swmansion/ui-components';
+import { getLibraries, getSupportedLibraryNames } from '../data/fetch-supported-libraries';
 import { Info, Package } from 'lucide-astro';
+import { css, cx } from '../../styled-system/css';
+import { ctaButtonCss } from '../styles/button';
+import { revealCss } from '../styles/reveal';
+import { pageTitleCss, sectionBorderBottomCss, sectionHeadingCss } from '../styles/section';
+
+// SectionHeader takes a plain-string title, so the brand-accented word is
+// composed from the same Heading/Text primitives it uses internally.
+const pageHeaderCss = css({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  maxWidth: 'container.md',
+  marginInline: 'auto',
+  marginBottom: '16',
+});
+
+const accentCss = css({ color: 'brand.primary' });
+
+// The Button recipe paints `interactive.primary`; this keeps the pink CTA
+// colour while taking the recipe's square corners and border treatment.
+const pinkButtonCss = css({
+  backgroundColor: '[#FF6259]!',
+  _hocus: { backgroundColor: '[#FA7F7C]!' },
+  _active: { backgroundColor: '[#FFA3A1]!' },
+});
 
 const libraries = await getLibraries();
 const allRNVersions = Object.keys(libraries).sort((a, b) => {
@@ -27,7 +50,7 @@ const groupedVersions = allRNVersions.reduce(
     acc[key].push(version);
     return acc;
   },
-  {} as Record<string, string[]>
+  {} as Record<string, string[]>,
 );
 
 const sortedGroups = Object.keys(groupedVersions).sort((a, b) => {
@@ -40,39 +63,25 @@ const sortedGroups = Object.keys(groupedVersions).sort((a, b) => {
 const supportedLibraryNames = await getSupportedLibraryNames();
 ---
 
-<section
-  id="supported-libraries"
-  class="py-24 relative border-b border-rnrGrey-80"
->
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-    {/* Page Header */}
-    <div class="text-center mb-16">
-      <h1
-        class="text-3xl md:text-5xl font-bold tracking-tight text-rnrGrey-0 mb-6"
-      >
-        Supported <span class="text-brandSeaBlue-100">Libraries</span>
-      </h1>
-      <p class="text-lg text-rnrGrey-40 leading-relaxed max-w-2xl mx-auto">
-        Browse all React Native libraries with pre-built artifacts available in
-        RNRepo.
-      </p>
-    </div>
+<PageSection id="supported-libraries" size="lg" className={sectionBorderBottomCss}>
+  <Container size="default">
+    <Reveal client:visible className={cx(revealCss, sectionHeadingCss, pageHeaderCss)}>
+      <Heading as="h1" size="h1" align="center" className={pageTitleCss}>
+        Supported <span class={accentCss}>Libraries</span>
+      </Heading>
+      <Text size="lg" color="subtle" align="center" data-part="description">
+        Browse all React Native libraries with pre-built artifacts available in RNRepo.
+      </Text>
+    </Reveal>
 
     {/* React Native Versions Card */}
-    <div
-      class="rounded-lg border border-rnrGrey-80 bg-surface/40 px-4 py-6 mb-8"
-    >
+    <div class="rounded-lg border border-rnrGrey-80 bg-surface/40 px-4 py-6 mb-8">
       <div class="flex flex-col gap-4">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h2 class="text-lg font-semibold text-rnrGrey-0">
-              Platform
-            </h2>
+            <h2 class="text-lg font-semibold text-rnrGrey-0">Platform</h2>
           </div>
-          <div
-            id="platform-switch"
-            class="inline-flex rounded-sm bg-rnrGrey-90 p-1 gap-1"
-          >
+          <div id="platform-switch" class="inline-flex rounded-sm bg-rnrGrey-90 p-1 gap-1">
             <button
               id="platform-android"
               data-platform="android"
@@ -93,19 +102,12 @@ const supportedLibraryNames = await getSupportedLibraryNames();
     </div>
 
     {/* React Native Versions Card */}
-    <div
-      class="rounded-lg border border-rnrGrey-80 bg-surface/40 px-4 py-6 mb-8"
-    >
+    <div class="rounded-lg border border-rnrGrey-80 bg-surface/40 px-4 py-6 mb-8">
       <div class="flex flex-col gap-4">
         <div>
-          <h2 class="text-lg font-semibold text-rnrGrey-0">
-            React Native Version
-          </h2>
+          <h2 class="text-lg font-semibold text-rnrGrey-0">React Native Version</h2>
         </div>
-        <div
-          id="rn-versions-container"
-          class="flex flex-wrap items-center gap-2"
-        >
+        <div id="rn-versions-container" class="flex flex-wrap items-center gap-2">
           {
             allRNVersions.slice(0, 5).map((version) => (
               <button
@@ -183,10 +185,7 @@ const supportedLibraryNames = await getSupportedLibraryNames();
       >
         <div class="text-sm font-medium text-rnrGrey-0 min-w-0">Library</div>
         <div class="text-sm font-medium text-rnrGrey-0 min-w-0">Platform</div>
-        <div
-          id="versions-header"
-          class="text-sm font-medium text-rnrGrey-0 min-w-0"
-        >
+        <div id="versions-header" class="text-sm font-medium text-rnrGrey-0 min-w-0">
           Library Versions
         </div>
       </div>
@@ -227,63 +226,77 @@ const supportedLibraryNames = await getSupportedLibraryNames();
                     </a>
                   </div>
                   <div class="flex gap-2 versions-container min-w-0 items-center">
-                    <span class="platform-label inline-flex items-center px-2 py-0.5 rounded-sm text-xs font-medium bg-brandGreen-100/10 text-brandGreen-100 flex-shrink-0 w-fit" data-platform="android">
+                    <span
+                      class="platform-label inline-flex items-center px-2 py-0.5 rounded-sm text-xs font-medium bg-brandGreen-100/10 text-brandGreen-100 flex-shrink-0 w-fit"
+                      data-platform="android"
+                    >
                       Android
                     </span>
-                    <span class="platform-label hidden inline-flex items-center px-2 py-0.5 rounded-sm text-xs font-medium bg-brandGreen-100/10 text-brandGreen-100 flex-shrink-0 w-fit" data-platform="ios">
+                    <span
+                      class="platform-label hidden inline-flex items-center px-2 py-0.5 rounded-sm text-xs font-medium bg-brandGreen-100/10 text-brandGreen-100 flex-shrink-0 w-fit"
+                      data-platform="ios"
+                    >
                       iOS
                     </span>
                   </div>
                   <div class="flex flex-wrap gap-2 versions-container min-w-0 items-center">
                     {isAvailable ? (
                       <>
-                        {libInfo.android_versions &&
-                        libInfo.android_versions.length > 0 ? (
-                          <div class="android-versions-wrapper versions-display flex items-center gap-2 w-full min-w-0" data-platform="android">
+                        {libInfo.android_versions && libInfo.android_versions.length > 0 ? (
+                          <div
+                            class="android-versions-wrapper versions-display flex items-center gap-2 w-full min-w-0"
+                            data-platform="android"
+                          >
                             <div class="android-versions-list flex flex-nowrap gap-2 overflow-hidden">
                               {libInfo.android_versions.map((ver) => (
                                 <span class="version-tag android-version inline-flex items-center px-2 py-1 rounded-sm text-xs font-medium bg-brandSeaBlue-100/10 text-brandSeaBlue-100 flex-shrink-0">
                                   {ver}
                                 </span>
                               ))}
-                              {libInfo.android_versions &&
-                                libInfo.android_versions.length > 3 && (
-                                  <button
-                                    class="expand-android-btn inline-flex items-center px-2 py-1 rounded-sm text-xs font-medium text-rnrGrey-40 hover:text-brandSeaBlue-100 transition-colors cursor-pointer whitespace-nowrap flex-shrink-0"
-                                    aria-expanded="false"
-                                  >
-                                    {/* text is set client-side based on viewport */}
-                                  </button>
-                                )}
+                              {libInfo.android_versions && libInfo.android_versions.length > 3 && (
+                                <button
+                                  class="expand-android-btn inline-flex items-center px-2 py-1 rounded-sm text-xs font-medium text-rnrGrey-40 hover:text-brandSeaBlue-100 transition-colors cursor-pointer whitespace-nowrap flex-shrink-0"
+                                  aria-expanded="false"
+                                >
+                                  {/* text is set client-side based on viewport */}
+                                </button>
+                              )}
                             </div>
                           </div>
                         ) : (
-                          <span class="android-empty text-xs text-rnrGrey-40 italic" data-platform="android">
+                          <span
+                            class="android-empty text-xs text-rnrGrey-40 italic"
+                            data-platform="android"
+                          >
                             Not available for RN {version}
                           </span>
                         )}
-                        {libInfo.ios_versions &&
-                        libInfo.ios_versions.length > 0 ? (
-                          <div class="ios-versions-wrapper versions-display hidden flex items-center gap-2 w-full min-w-0" data-platform="ios">
+                        {libInfo.ios_versions && libInfo.ios_versions.length > 0 ? (
+                          <div
+                            class="ios-versions-wrapper versions-display hidden flex items-center gap-2 w-full min-w-0"
+                            data-platform="ios"
+                          >
                             <div class="ios-versions-list flex flex-wrap gap-2">
                               {libInfo.ios_versions.map((ver) => (
                                 <span class="version-tag ios-version inline-flex items-center px-2 py-1 rounded-sm text-xs font-medium bg-brandSeaBlue-100/10 text-brandSeaBlue-100 flex-shrink-0">
                                   {ver}
                                 </span>
                               ))}
-                              {libInfo.ios_versions &&
-                                libInfo.ios_versions.length > 3 && (
-                                  <button
-                                    class="expand-ios-btn inline-flex items-center px-2 py-1 rounded-sm text-xs font-medium text-rnrGrey-40 hover:text-brandSeaBlue-100 transition-colors cursor-pointer whitespace-nowrap flex-shrink-0"
-                                    aria-expanded="false"
-                                  >
-                                    {/* text is set client-side based on viewport */}
-                                  </button>
-                                )}
+                              {libInfo.ios_versions && libInfo.ios_versions.length > 3 && (
+                                <button
+                                  class="expand-ios-btn inline-flex items-center px-2 py-1 rounded-sm text-xs font-medium text-rnrGrey-40 hover:text-brandSeaBlue-100 transition-colors cursor-pointer whitespace-nowrap flex-shrink-0"
+                                  aria-expanded="false"
+                                >
+                                  {/* text is set client-side based on viewport */}
+                                </button>
+                              )}
                             </div>
                           </div>
                         ) : (
-                          <span class="ios-empty text-xs text-rnrGrey-40 italic hidden" data-platform="ios">
+                          <span
+                            class="ios-empty text-xs text-rnrGrey-40 italic hidden"
+                            data-platform="ios"
+                          >
                             Not available for RN {version}
                           </span>
                         )}
@@ -301,7 +314,7 @@ const supportedLibraryNames = await getSupportedLibraryNames();
                   </div>
                 </div>
               );
-            })
+            }),
           )
         }
       </div>
@@ -320,52 +333,45 @@ const supportedLibraryNames = await getSupportedLibraryNames();
             d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
           ></path>
         </svg>
-        <p class="text-lg font-medium text-rnrGrey-0 mb-1">
-          No libraries found
-        </p>
+        <p class="text-lg font-medium text-rnrGrey-0 mb-1">No libraries found</p>
         <p class="text-sm text-rnrGrey-40">Try adjusting your search query</p>
       </div>
     </div>
 
     {/* Footer Section */}
     <div class="mt-10 text-center space-y-6">
-
-      <a
+      <Button
+        variant="primary"
+        size="lg"
+        className={cx(ctaButtonCss, pinkButtonCss)}
         href="https://github.com/software-mansion/rnrepo/issues/new?template=library_support_request.yml"
-        class="inline-flex items-center px-6 py-3 bg-brandPink-100 text-rnrGrey-100 font-semibold rounded-lg hover:bg-brandPink-90 transition-colors"
+        external
+        target="_blank"
+        rel="noopener noreferrer"
       >
         Request Library Support
-      </a>
+      </Button>
     </div>
-  </div>
-</section>
+  </Container>
+</PageSection>
 
 <script>
-  const searchInput = document.getElementById(
-    'library-search'
-  ) as HTMLInputElement | null;
+  const searchInput = document.getElementById('library-search') as HTMLInputElement | null;
   const noResults = document.getElementById('no-results') as HTMLElement | null;
-  const libraryCount = document.getElementById(
-    'library-count'
-  ) as HTMLSpanElement | null;
+  const libraryCount = document.getElementById('library-count') as HTMLSpanElement | null;
   const libraryRows = document.querySelectorAll<HTMLElement>('.library-row');
-  const versionButtons =
-    document.querySelectorAll<HTMLButtonElement>('.rn-version-btn');
-  const platformButtons =
-    document.querySelectorAll<HTMLButtonElement>('.platform-btn');
+  const versionButtons = document.querySelectorAll<HTMLButtonElement>('.rn-version-btn');
+  const platformButtons = document.querySelectorAll<HTMLButtonElement>('.platform-btn');
 
   let activeVersion: string | null = null;
   let activePlatform: string = 'android';
 
-  function setPlatformButtonActive(
-    btn: HTMLButtonElement,
-    isActive: boolean
-  ): void {
+  function setPlatformButtonActive(btn: HTMLButtonElement, isActive: boolean): void {
     btn.classList.remove(
       'bg-brandSeaBlue-100',
       'text-rnrGrey-0',
       'text-rnrGrey-40',
-      'hover:text-rnrGrey-0'
+      'hover:text-rnrGrey-0',
     );
 
     if (isActive) {
@@ -399,10 +405,7 @@ const supportedLibraryNames = await getSupportedLibraryNames();
     });
   });
 
-  function setVersionButtonActive(
-    btn: HTMLButtonElement,
-    isActive: boolean
-  ): void {
+  function setVersionButtonActive(btn: HTMLButtonElement, isActive: boolean): void {
     // Normalize both the base + hover classes so first/next clicks look identical.
     btn.classList.remove(
       'bg-brandSeaBlue-100/10',
@@ -410,20 +413,16 @@ const supportedLibraryNames = await getSupportedLibraryNames();
       'hover:bg-brandSeaBlue-100/20',
       'bg-brandSeaBlue-100',
       'text-rnrGrey-0',
-      'hover:bg-brandSeaBlue-100/90'
+      'hover:bg-brandSeaBlue-100/90',
     );
 
     if (isActive) {
-      btn.classList.add(
-        'bg-brandSeaBlue-100',
-        'text-rnrGrey-0',
-        'hover:bg-brandSeaBlue-100/90'
-      );
+      btn.classList.add('bg-brandSeaBlue-100', 'text-rnrGrey-0', 'hover:bg-brandSeaBlue-100/90');
     } else {
       btn.classList.add(
         'bg-brandSeaBlue-100/10',
         'text-brandSeaBlue-100',
-        'hover:bg-brandSeaBlue-100/20'
+        'hover:bg-brandSeaBlue-100/20',
       );
     }
   }
@@ -437,9 +436,7 @@ const supportedLibraryNames = await getSupportedLibraryNames();
   function setupRNVersionsExpand() {
     const expandBtn = document.getElementById('expand-rn-versions');
     const collapseBtn = document.getElementById('collapse-rn-versions');
-    const versionsList = document.getElementById(
-      'rn-versions-list'
-    ) as HTMLElement | null;
+    const versionsList = document.getElementById('rn-versions-list') as HTMLElement | null;
 
     if (!expandBtn || !versionsList) return;
 
@@ -467,23 +464,23 @@ const supportedLibraryNames = await getSupportedLibraryNames();
       if (!target) return;
 
       const expandBtn = target.closest(
-        '.expand-android-btn, .expand-ios-btn'
+        '.expand-android-btn, .expand-ios-btn',
       ) as HTMLButtonElement | null;
       if (!expandBtn) return;
 
       e.preventDefault();
-      
+
       const isAndroid = expandBtn.classList.contains('expand-android-btn');
-      const wrapper = isAndroid 
+      const wrapper = isAndroid
         ? expandBtn.closest('.android-versions-wrapper')
         : expandBtn.closest('.ios-versions-wrapper');
-      
+
       if (!wrapper) return;
 
       const isExpanded = expandBtn.getAttribute('aria-expanded') === 'true';
       expandBtn.setAttribute('aria-expanded', String(!isExpanded));
       wrapper.setAttribute('data-expanded', String(!isExpanded));
-      
+
       if (isAndroid) {
         applyAndroidVersionsCollapse(wrapper);
       } else {
@@ -495,24 +492,15 @@ const supportedLibraryNames = await getSupportedLibraryNames();
   function getFlexGapPx(el: HTMLElement): number {
     const styles = window.getComputedStyle(el);
     // Prefer columnGap when present; fall back to gap.
-    const raw =
-      styles.columnGap && styles.columnGap !== 'normal'
-        ? styles.columnGap
-        : styles.gap;
+    const raw = styles.columnGap && styles.columnGap !== 'normal' ? styles.columnGap : styles.gap;
     const parsed = Number.parseFloat(raw);
     return Number.isFinite(parsed) ? parsed : 0;
   }
 
   function applyAndroidVersionsCollapse(wrapper: Element): void {
-    const list = wrapper.querySelector(
-      '.android-versions-list'
-    ) as HTMLElement | null;
-    const versions = Array.from(
-      wrapper.querySelectorAll<HTMLElement>('.android-version')
-    );
-    const expandBtn = wrapper.querySelector<HTMLButtonElement>(
-      '.expand-android-btn'
-    );
+    const list = wrapper.querySelector('.android-versions-list') as HTMLElement | null;
+    const versions = Array.from(wrapper.querySelectorAll<HTMLElement>('.android-version'));
+    const expandBtn = wrapper.querySelector<HTMLButtonElement>('.expand-android-btn');
     if (!list || versions.length === 0) return;
 
     const isExpanded =
@@ -580,9 +568,7 @@ const supportedLibraryNames = await getSupportedLibraryNames();
 
       for (let iter = 0; iter < 4; iter++) {
         const hiddenGuess =
-          iter === 0
-            ? versions.length
-            : Math.max(0, versions.length - visibleCount);
+          iter === 0 ? versions.length : Math.max(0, versions.length - visibleCount);
         expandBtn.textContent = `+${hiddenGuess} more`;
         buttonW = expandBtn.offsetWidth;
 
@@ -630,15 +616,9 @@ const supportedLibraryNames = await getSupportedLibraryNames();
   }
 
   function applyIOSVersionsCollapse(wrapper: Element): void {
-    const list = wrapper.querySelector(
-      '.ios-versions-list'
-    ) as HTMLElement | null;
-    const versions = Array.from(
-      wrapper.querySelectorAll<HTMLElement>('.ios-version')
-    );
-    const expandBtn = wrapper.querySelector<HTMLButtonElement>(
-      '.expand-ios-btn'
-    );
+    const list = wrapper.querySelector('.ios-versions-list') as HTMLElement | null;
+    const versions = Array.from(wrapper.querySelectorAll<HTMLElement>('.ios-version'));
+    const expandBtn = wrapper.querySelector<HTMLButtonElement>('.expand-ios-btn');
     if (!list || versions.length === 0) return;
 
     const isExpanded =
@@ -706,9 +686,7 @@ const supportedLibraryNames = await getSupportedLibraryNames();
 
       for (let iter = 0; iter < 4; iter++) {
         const hiddenGuess =
-          iter === 0
-            ? versions.length
-            : Math.max(0, versions.length - visibleCount);
+          iter === 0 ? versions.length : Math.max(0, versions.length - visibleCount);
         expandBtn.textContent = `+${hiddenGuess} more`;
         buttonW = expandBtn.offsetWidth;
 
@@ -781,7 +759,7 @@ const supportedLibraryNames = await getSupportedLibraryNames();
       const libraryName = row.dataset.libraryName?.toLowerCase() || '';
       const matchesVersion = rnVersion === activeVersion;
       const matchesSearch = !searchQuery || libraryName.includes(searchQuery);
-      
+
       // Check if the library has any version data for the active platform.
       // Drive this off the presence of version tags in the DOM, NOT the
       // `.android-hidden`/`.ios-hidden` collapse classes: those are a transient
@@ -795,13 +773,13 @@ const supportedLibraryNames = await getSupportedLibraryNames();
       } else {
         hasVersionsForPlatform = row.querySelectorAll('.ios-version').length > 0;
       }
-      
+
       const shouldShow = matchesVersion && matchesSearch && hasVersionsForPlatform;
 
       if (shouldShow) {
         row.style.display = '';
         visibleCount++;
-        
+
         // Update platform labels to show only active platform
         const platformLabels = row.querySelectorAll<HTMLElement>('.platform-label');
         platformLabels.forEach((label) => {
@@ -812,9 +790,11 @@ const supportedLibraryNames = await getSupportedLibraryNames();
             label.classList.add('hidden');
           }
         });
-        
+
         // Update version displays to show only active platform
-        const versionDisplays = row.querySelectorAll<HTMLElement>('.versions-display, [data-platform]');
+        const versionDisplays = row.querySelectorAll<HTMLElement>(
+          '.versions-display, [data-platform]',
+        );
         versionDisplays.forEach((display) => {
           const displayPlatform = display.getAttribute('data-platform');
           if (displayPlatform === activePlatform) {
@@ -842,12 +822,12 @@ const supportedLibraryNames = await getSupportedLibraryNames();
 
     // Recalculate version wrapping for visible libraries
     const visibleAndroidWrappers = document.querySelectorAll(
-      '.library-row:not([style*="display: none"]) .android-versions-wrapper'
+      '.library-row:not([style*="display: none"]) .android-versions-wrapper',
     );
     visibleAndroidWrappers.forEach((w) => applyAndroidVersionsCollapse(w));
 
     const visibleIOSWrappers = document.querySelectorAll(
-      '.library-row:not([style*="display: none"]) .ios-versions-wrapper'
+      '.library-row:not([style*="display: none"]) .ios-versions-wrapper',
     );
     visibleIOSWrappers.forEach((w) => applyIOSVersionsCollapse(w));
   }
