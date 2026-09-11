@@ -50,6 +50,8 @@ jobs:
 
       - name: 📦 Install dependencies
         run: bun install --ignore-scripts
+        env:
+          GL_TOKEN: ${{ secrets.GL_TOKEN }}
 
       - name: ♻️ Restore RN project cache
         id: rn-project-cache

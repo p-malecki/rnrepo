@@ -38,6 +38,8 @@ jobs:
 
       - name: 📦 Install dependencies
         run: bun install --ignore-scripts
+        env:
+          GL_TOKEN: ${{ secrets.GL_TOKEN }}
 
       - name: 📝 Update build status (failure)
         run: bun run packages/publisher/update-build-status.ts -- "${WORKFLOW_RUN_ID}" "failed"
@@ -86,6 +88,8 @@ jobs:
 
       - name: 📦 Install dependencies
         run: bun install --ignore-scripts
+        env:
+          GL_TOKEN: ${{ secrets.GL_TOKEN }}
 
       - name: 🔐 Import GPG key
         env:
