@@ -52,6 +52,10 @@ export default defineConfig({
       color: "text.body",
       fontFamily: "body",
     },
+    "::selection": {
+      backgroundColor: "brand.primary",
+      color: "gray.950",
+    },
   },
   theme: {
     extend: {
