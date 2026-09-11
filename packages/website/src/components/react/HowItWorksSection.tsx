@@ -3,16 +3,15 @@ import {
   Container,
   Heading,
   PageSection,
+  Reveal,
   Text,
   TimelineSection,
 } from '@swmansion/ui-components';
 import type { ReactNode } from 'react';
 import { css, cx } from '../../../styled-system/css';
+import { REVEAL_TRAIL_MS, revealCss } from '../../styles/reveal';
 import { sectionBorderTopCss, sectionHeadingCss } from '../../styles/section';
 
-// Matches the hero/feature perk cards: square corners, translucent surface, and
-// a border that lifts on hover along with the icon tile behind it. The icon
-// glyphs themselves come from the `.hiw-step--*` rules in global.css.
 const timelineCardCss = css({
   borderRadius: '[0]',
   backgroundColor: '[rgba(23, 23, 23, 0.4)]',
@@ -34,9 +33,10 @@ const timelineCardCss = css({
   },
 });
 
-// The timeline and the verification card are two sections but read as one
-// block, so the card carries the closing gap. It's a margin, not padding:
-// `paddingBlock` is zeroed on that section and the two would fight as longhands.
+const timelineSectionCss = css({
+  paddingBottom: { base: '8!', lg: '10!' },
+});
+
 const verifyCardSectionCss = css({
   marginBottom: { base: '12', lg: '16' },
 });
@@ -44,7 +44,6 @@ const verifyCardSectionCss = css({
 const verifyCardCss = css({ borderRadius: '[0]' });
 
 interface Step {
-  /** Suffix of the `.hiw-step--*` class that supplies this item's icon. */
   icon: string;
   title: string;
   body: ReactNode;
@@ -87,86 +86,94 @@ const steps: Step[] = [
 export default function HowItWorksSection() {
   return (
     <>
-      <TimelineSection
-        id="how-it-works"
-        layout="vertical"
-        verticalVariant="single-column"
-        size="lg"
-        containerSize="content"
-        markerColor="#38ACDD"
-        className={sectionBorderTopCss}
-      >
-        <TimelineSection.Header
-          className={sectionHeadingCss}
-          title="How It Works"
-          description="A fully automated, transparent pipeline from source to prebuilt artifacts."
-        />
-        {steps.map(({ icon, title, body }, index) => (
-          <TimelineSection.Item
-            key={title}
-            step={String(index + 1)}
-            title={title}
-            className={cx(timelineCardCss, 'hiw-step', `hiw-step--${icon}`)}
-          >
-            {body}
-          </TimelineSection.Item>
-        ))}
-      </TimelineSection>
-      <PageSection size="sm" paddingBlock={{ base: '0', lg: '0' }} className={verifyCardSectionCss}>
-        <Container size="content">
-          <Card variant="outline" size="lg" className={verifyCardCss}>
-            <Card.Body
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: '2rem',
-                flexWrap: 'wrap',
-              }}
+      <Reveal className={revealCss}>
+        <TimelineSection
+          id="how-it-works"
+          layout="vertical"
+          verticalVariant="single-column"
+          size="lg"
+          containerSize="content"
+          markerColor="#38ACDD"
+          className={cx(sectionBorderTopCss, timelineSectionCss)}
+        >
+          <TimelineSection.Header
+            className={sectionHeadingCss}
+            title="How It Works"
+            description="A fully automated, transparent pipeline from source to prebuilt artifacts."
+          />
+          {steps.map(({ icon, title, body }, index) => (
+            <TimelineSection.Item
+              key={title}
+              step={String(index + 1)}
+              title={title}
+              className={cx(timelineCardCss, 'hiw-step', `hiw-step--${icon}`)}
             >
-              <div style={{ flex: '1 1 20rem' }}>
-                <Heading as="h3" size="h4">
-                  Transparent &amp; Verifiable
-                </Heading>
-                <Text size="md" color="muted" style={{ marginTop: '0.75rem' }}>
-                  Every artifact includes a link to its build workflow. You can verify the exact
-                  commit, build logs, and GPG signature of any prebuilt library.
-                </Text>
-                <Text size="md" color="muted" style={{ marginTop: '0.75rem' }}>
-                  No hidden steps, no black boxes.
-                </Text>
-              </div>
-              <div
-                aria-hidden
+              {body}
+            </TimelineSection.Item>
+          ))}
+        </TimelineSection>
+      </Reveal>
+      <Reveal className={revealCss} delay={REVEAL_TRAIL_MS}>
+        <PageSection
+          size="sm"
+          paddingBlock={{ base: '0', lg: '0' }}
+          className={verifyCardSectionCss}
+        >
+          <Container size="content">
+            <Card variant="outline" size="lg" className={verifyCardCss}>
+              <Card.Body
                 style={{
-                  width: '7rem',
-                  height: '7rem',
-                  borderRadius: '9999px',
-                  border: '8px solid #57B495',
-                  display: 'flex',
+                  flexDirection: 'row',
                   alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#57B495',
-                  flexShrink: 0,
-                  marginInline: 'auto',
+                  gap: '2rem',
+                  flexWrap: 'wrap',
                 }}
               >
-                {/* Inline rather than the library CheckIcon: the old site drew
-                    this at stroke-width 4 to balance the 8px ring. */}
-                <svg
-                  width="48"
-                  height="48"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="4"
+                <div style={{ flex: '1 1 20rem' }}>
+                  <Heading as="h3" size="h4">
+                    Transparent &amp; Verifiable
+                  </Heading>
+                  <Text size="md" color="muted" style={{ marginTop: '0.75rem' }}>
+                    Every artifact includes a link to its build workflow. You can verify the exact
+                    commit, build logs, and GPG signature of any prebuilt library.
+                  </Text>
+                  <Text size="md" color="muted" style={{ marginTop: '0.75rem' }}>
+                    No hidden steps, no black boxes.
+                  </Text>
+                </div>
+                <div
+                  aria-hidden
+                  style={{
+                    width: '7rem',
+                    height: '7rem',
+                    borderRadius: '9999px',
+                    border: '8px solid #57B495',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#57B495',
+                    flexShrink: 0,
+                    marginInline: 'auto',
+                  }}
                 >
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </div>
-            </Card.Body>
-          </Card>
-        </Container>
-      </PageSection>
+                  {/* Inline rather than the library CheckIcon: the old site drew
+                    this at stroke-width 4 to balance the 8px ring. */}
+                  <svg
+                    width="48"
+                    height="48"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </div>
+              </Card.Body>
+            </Card>
+          </Container>
+        </PageSection>
+      </Reveal>
     </>
   );
 }

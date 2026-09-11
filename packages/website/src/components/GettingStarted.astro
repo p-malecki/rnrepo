@@ -1,7 +1,8 @@
 ---
-import { Container, PageSection, SectionHeader } from '@swmansion/ui-components';
+import { Container, PageSection, Reveal, SectionHeader } from '@swmansion/ui-components';
 import Icon from './Icon.astro';
 import { codeToHtml } from 'shiki';
+import { REVEAL_TRAIL_MS, revealCss } from '../styles/reveal';
 import {
   sectionBorderTopCss,
   sectionContentWidthCss,
@@ -115,15 +116,18 @@ const iOSPodfileCodeHtml = await codeToHtml(iOSPodfile, {
 
 <PageSection id="setup" size="lg" className={sectionBorderTopCss}>
   <Container size="content" className={sectionContentWidthCss}>
-    <SectionHeader
-      className={sectionHeadingCss}
-      align="start"
-      title="Getting Started"
-      description="To start using RNRepo, you need to configure your project to include our build plugin that will automatically swap out dependencies on supported libraries with pre-built artifacts downloaded from our repository."
-    />
+    <Reveal client:visible className={revealCss}>
+      <SectionHeader
+        className={sectionHeadingCss}
+        align="start"
+        title="Getting Started"
+        description="To start using RNRepo, you need to configure your project to include our build plugin that will automatically swap out dependencies on supported libraries with pre-built artifacts downloaded from our repository."
+      />
+    </Reveal>
 
     {/* Tab Switcher - Using Radio Buttons */}
-    <div class="tab-wrapper mt-12">
+    <Reveal client:visible className={revealCss} delay={REVEAL_TRAIL_MS}>
+      <div class="tab-wrapper mt-12">
       <input
         type="radio"
         id="tab-expo"
@@ -430,10 +434,12 @@ const iOSPodfileCodeHtml = await codeToHtml(iOSPodfile, {
           <Fragment set:html={iOSPodfileCodeHtml} />
         </div>
       </div>
-    </div>
+      </div>
+    </Reveal>
 
     {/* Bottom CTA */}
-    <div class="mt-8 text-center p-8 bg-surfaceHighlight/20 border border-rnrGrey-80 rounded-sm">
+    <Reveal client:visible className={revealCss}>
+      <div class="mt-8 text-center p-8 bg-surfaceHighlight/20 border border-rnrGrey-80 rounded-sm">
       <h3 class="text-lg font-semibold text-rnrGrey-0 mb-2">
         That's it! Now build your app as usual and enjoy faster builds.
       </h3>
@@ -444,9 +450,10 @@ const iOSPodfileCodeHtml = await codeToHtml(iOSPodfile, {
           class="text-rnrGrey-0 underline hover:text-rnrGrey-30 transition-colors"
         >
           GitHub repository</a
-        >.
-      </p>
-    </div>
+          >.
+        </p>
+      </div>
+    </Reveal>
   </Container>
 </PageSection>
 

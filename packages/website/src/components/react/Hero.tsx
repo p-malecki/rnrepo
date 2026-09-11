@@ -1,8 +1,9 @@
-import { Button, Grid, HeroSection, Text } from '@swmansion/ui-components';
+import { Button, Grid, HeroSection, Reveal, Text } from '@swmansion/ui-components';
 import { Code2, Package, Shield, Zap } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
-import { css } from '../../../styled-system/css';
+import { css, cx } from '../../../styled-system/css';
 import { ctaButtonCss } from '../../styles/button';
+import { REVEAL_TRAIL_MS, revealCss } from '../../styles/reveal';
 
 interface Stat {
   value: string;
@@ -70,6 +71,20 @@ const arrowOnSecondaryCss = css({ color: 'text.muted' });
 // emitted later in the stylesheet at equal specificity, so a class here loses.
 const secondaryButtonBorder = { border: '1px solid #525252' };
 
+const heroCopyCss = css({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: '8',
+  width: 'full',
+});
+
+const heroStatsCss = css({
+  display: 'flex',
+  justifyContent: 'center',
+  width: 'full',
+});
+
 const statsGridCss = css({
   width: 'full',
   maxWidth: '[64rem]',
@@ -133,42 +148,46 @@ export default function HomeHero() {
       className={heroCss}
       slotProps={{ content: { className: heroContentCss } }}
     >
-      <HeroSection.CreatorBadge />
-      <HeroSection.Title>
-        A Repository for React Native <span className={accentCss}>Pre-Built Artifacts</span>
-      </HeroSection.Title>
-      <Text size="lg" color="muted" align="center" className={descriptionCss}>
-        Speed up your builds and avoid compiling native libraries from scratch. RNRepo delivers
-        pre-built artifacts so you can focus on building your app.
-      </Text>
-      <HeroSection.Actions>
-        <Button variant="primary" size="lg" className={ctaButtonCss} href="/#setup">
-          Get Started <span className={arrowOnPrimaryCss}>→</span>
-        </Button>
-        <Button
-          variant="secondary"
-          size="lg"
-          className={ctaButtonCss}
-          style={secondaryButtonBorder}
-          href="https://github.com/software-mansion/rnrepo"
-          external
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          View on GitHub <span className={arrowOnSecondaryCss}>→</span>
-        </Button>
-      </HeroSection.Actions>
-      <Grid columns="4" columnsMobile="2" gap="4" className={statsGridCss} alignItems="stretch">
-        {stats.map(({ value, label, icon: Icon, color }) => (
-          <div key={label} className={statCardCss}>
-            <div data-stat-icon className={statIconBallCss}>
-              <Icon size={24} color={color} aria-hidden />
+      <Reveal className={cx(heroCopyCss, revealCss)}>
+        <HeroSection.CreatorBadge />
+        <HeroSection.Title>
+          A Repository for React Native <span className={accentCss}>Pre-Built Artifacts</span>
+        </HeroSection.Title>
+        <Text size="lg" color="muted" align="center" className={descriptionCss}>
+          Speed up your builds and avoid compiling native libraries from scratch. RNRepo delivers
+          pre-built artifacts so you can focus on building your app.
+        </Text>
+        <HeroSection.Actions>
+          <Button variant="primary" size="lg" className={ctaButtonCss} href="/#setup">
+            Get Started <span className={arrowOnPrimaryCss}>→</span>
+          </Button>
+          <Button
+            variant="secondary"
+            size="lg"
+            className={ctaButtonCss}
+            style={secondaryButtonBorder}
+            href="https://github.com/software-mansion/rnrepo"
+            external
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View on GitHub <span className={arrowOnSecondaryCss}>→</span>
+          </Button>
+        </HeroSection.Actions>
+      </Reveal>
+      <Reveal className={cx(heroStatsCss, revealCss)} delay={REVEAL_TRAIL_MS}>
+        <Grid columns="4" columnsMobile="2" gap="4" className={statsGridCss} alignItems="stretch">
+          {stats.map(({ value, label, icon: Icon, color }) => (
+            <div key={label} className={statCardCss}>
+              <div data-stat-icon className={statIconBallCss}>
+                <Icon size={24} color={color} aria-hidden />
+              </div>
+              <div className={statValueCss}>{value}</div>
+              <div className={statLabelCss}>{label}</div>
             </div>
-            <div className={statValueCss}>{value}</div>
-            <div className={statLabelCss}>{label}</div>
-          </div>
-        ))}
-      </Grid>
+          ))}
+        </Grid>
+      </Reveal>
     </HeroSection>
   );
 }

@@ -1,17 +1,21 @@
 ---
-import { Container, PageSection, SectionHeader } from '@swmansion/ui-components';
+import { Container, PageSection, Reveal, SectionHeader } from '@swmansion/ui-components';
 import { faqItems } from '../data/faq';
+import { REVEAL_TRAIL_MS, revealCss } from '../styles/reveal';
 import { sectionHeadingCss } from '../styles/section';
 ---
 
 <PageSection id="faq" size="lg">
   <Container size="content">
-    <SectionHeader
-      className={sectionHeadingCss}
-      title="Frequently Asked Questions"
-      description="Everything you need to know about RNRepo."
-    />
-    <div class="faq-list">
+    <Reveal client:visible className={revealCss}>
+      <SectionHeader
+        className={sectionHeadingCss}
+        title="Frequently Asked Questions"
+        description="Everything you need to know about RNRepo."
+      />
+    </Reveal>
+    <Reveal client:visible className={revealCss} delay={REVEAL_TRAIL_MS}>
+      <div class="faq-list">
       {
         faqItems.map((item, index) => (
           <div class="faq-item" data-faq-open="false">
@@ -52,7 +56,8 @@ import { sectionHeadingCss } from '../styles/section';
           </div>
         ))
       }
-    </div>
+      </div>
+    </Reveal>
   </Container>
 </PageSection>
 

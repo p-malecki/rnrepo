@@ -14,11 +14,11 @@ import { AD_BANNER } from '../data/topbar-zone-config';
 <BaseLayout>
   <Header client:load showBanner adBanner={AD_BANNER} />
   <main>
-    <Hero />
+    <Hero client:load />
     <GettingStarted />
-    <FeaturesGrid />
+    <FeaturesGrid client:visible />
     <HowItWorksSection client:visible />
-    <CustomSetupSection />
+    <CustomSetupSection client:visible />
     <FAQ />
   </main>
   <Footer client:visible />

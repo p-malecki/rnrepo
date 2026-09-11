@@ -1,8 +1,9 @@
-import { Container, PageSection, SectionHeader } from '@swmansion/ui-components';
+import { Container, PageSection, Reveal, SectionHeader } from '@swmansion/ui-components';
 import { Folder, Package, Phone, Shield, Zap } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
-import { css } from '../../../styled-system/css';
+import { css, cx } from '../../../styled-system/css';
+import { REVEAL_TRAIL_MS, revealCss } from '../../styles/reveal';
 import { sectionBorderTopCss, sectionHeadingCss } from '../../styles/section';
 
 interface Feature {
@@ -56,6 +57,8 @@ const features: Feature[] = [
 
 // The library Grid only breaks at one breakpoint (base -> md); this section
 // steps 1 -> 2 -> 3 columns, so the template is spelled out here instead.
+const GRID_COLUMNS = 3;
+
 const gridCss = css({
   display: 'grid',
   gap: '6',
@@ -67,7 +70,10 @@ const gridCss = css({
   },
 });
 
+const cardRevealCss = css({ height: 'full' });
+
 const cardCss = css({
+  height: 'full',
   padding: '8',
   backgroundColor: '[rgba(23, 23, 23, 0.4)]',
   borderWidth: 'sm',
@@ -122,20 +128,28 @@ export default function FeaturesGrid() {
   return (
     <PageSection id="benefits" size="lg" tone="default" className={sectionBorderTopCss}>
       <Container size="default">
-        <SectionHeader
-          className={sectionHeadingCss}
-          title="Why RNRepo?"
-          description="Built for React Native developers who value speed, security, and simplicity."
-        />
+        <Reveal className={revealCss}>
+          <SectionHeader
+            className={sectionHeadingCss}
+            title="Why RNRepo?"
+            description="Built for React Native developers who value speed, security, and simplicity."
+          />
+        </Reveal>
         <div className={gridCss}>
-          {features.map(({ icon: Icon, color, title, description }) => (
-            <div key={title} className={cardCss}>
-              <div data-feature-icon className={iconWrapperCss}>
-                <Icon size={24} color={color} aria-hidden />
+          {features.map(({ icon: Icon, color, title, description }, index) => (
+            <Reveal
+              key={title}
+              className={cx(cardRevealCss, revealCss)}
+              delay={REVEAL_TRAIL_MS * (1 + Math.floor(index / GRID_COLUMNS))}
+            >
+              <div className={cardCss}>
+                <div data-feature-icon className={iconWrapperCss}>
+                  <Icon size={24} color={color} aria-hidden />
+                </div>
+                <h3 className={titleCss}>{title}</h3>
+                <p className={descriptionCss}>{description}</p>
               </div>
-              <h3 className={titleCss}>{title}</h3>
-              <p className={descriptionCss}>{description}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </Container>
