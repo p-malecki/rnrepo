@@ -13,6 +13,12 @@ const footerStackCss = css({
   width: 'full',
 });
 
+// BrandStrip pulls itself up with a negative margin, which collapses through
+// this Reveal wrapper - its (invisible) box then overlaps the CTA above and
+// swallows clicks. Let pointer events fall through; the orbit logos opt back
+// in with `pointer-events: auto` on their own.
+const brandStripRevealCss = css({ pointerEvents: 'none' });
+
 const footerNavLinks: FooterLegalLink[] = [
   { href: '/#setup', label: 'Setup' },
   { href: '/#how-it-works', label: 'How It Works' },
@@ -51,7 +57,7 @@ export default function Footer() {
           </FooterSection.Action>
         </Reveal>
       </FooterSection.Content>
-      <Reveal className={revealCss}>
+      <Reveal className={cx(revealCss, brandStripRevealCss)}>
         <FooterSection.BrandStrip theme="dark" />
       </Reveal>
       <FooterSection.BottomBar legalLinks={footerNavLinks} />
